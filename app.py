@@ -18,15 +18,19 @@ def preprocess_blog(blog):
     tags_data = blog.get("tags", [])
     author = blog.get("author", "")
 
+    # Convert to strings if needed
     if isinstance(content_data, list):
         content_data = " ".join([str(item) for item in content_data])
     if isinstance(tags_data, list):
         tags_data = " ".join(tags_data)
 
-    content = re.sub(r'<[^>]+>', '', content_data)
+    content = re.sub(r"<[^>]+>", "", str(content_data))
+    tags = str(tags_data)
+    author = str(author)
 
-    combined = f"{title} {content} {tags_data * 3} {author * 2}".lower()
+    combined = f"{title} {content} {tags * 3} {author * 2}".lower()
     return combined
+
 
 @app.route("/recommend/<string:blog_id>", methods=["GET"])
 def recommend(blog_id):
